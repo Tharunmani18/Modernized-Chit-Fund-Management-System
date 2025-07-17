@@ -1,0 +1,58 @@
+spring:
+  mail:
+    host: ${LOCAL_EMAIL_HOST}
+    port: ${LOCAL_EMAIL_PORT}
+    username: ${LOCAL_EMAIL_USERNAME}
+    password: ${LOCAL_EMAIL_PASSWORD}
+    properties:
+      mail.smtp.auth: true
+      mail.smtp.starttls.enable: true
+      mail.smtp.ssl.trust: ${LOCAL_EMAIL_HOST}
+      mail.smtp.connectiontimeout: ${LOCAL_EMAIL_CONNECTION_TIMEOUT}
+      mail.smtp.timeout: ${LOCAL_EMAIL_TIMEOUT}
+      mail.smtp.writetimeout: ${LOCAL_EMAIL_WRITE_TIMEOUT}
+      mail.transport.protocol: smtp
+
+  main:
+    allow-circular-references: true
+
+  servlet:
+    multipart:
+      max-file-size: 5MB
+      max-request-size: 5MB
+
+email:
+  sender: ${LOCAL_EMAIL_USERNAME}
+
+management:
+  endpoint:
+    health:
+      show-details: always
+
+server:
+  port: ${LOCAL_SERVER_PORT}
+
+logging:
+  file:
+    name: /var/api/chit/logs/dev/logfile.log
+
+jwt:
+  secret: ${LOCAL_JWT_SECRET_KEY}
+  expiration: ${LOCAL_JWT_EXPIRATION_TIME}
+
+springdoc:
+  api-docs:
+    enabled: ${SWAGGER_ENABLE}
+
+encryption:
+  algorithm: ${LOCAL_ENCRYPTION_ALGORITHM}
+  transformation: ${LOCAL_ENCRYPTION_TRANSFORMATION}
+  key: ${LOCAL_ENCRYPTION_KEY}
+
+file:
+  filepath: ${LOCAL_FILEPATH}
+
+mongo:
+  host: ${LOCAL_MONGODB_HOST}
+  port: ${LOCAL_MONGODB_PORT}
+  database: ${LOCAL_MONGODB_DATABASE}

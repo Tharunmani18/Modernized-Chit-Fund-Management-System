@@ -1,0 +1,97 @@
+plugins {
+	id 'java'
+	id 'org.springframework.boot' version '3.2.0'
+	id 'io.spring.dependency-management' version '1.1.4'
+	id 'jacoco'
+	id "org.sonarqube" version "3.3" // SonarQube plugin
+}
+
+group = 'com.chit'
+version = '0.0.1-SNAPSHOT'
+
+java {
+	sourceCompatibility = '17'
+}
+
+repositories {
+	mavenCentral()
+}
+
+dependencies {
+	// Spring Boot Starters
+	implementation 'org.springframework.boot:spring-boot-starter-web'
+	implementation 'org.springframework.boot:spring-boot-starter-data-mongodb'
+	implementation 'org.springframework.boot:spring-boot-starter-security'
+	implementation 'org.springframework.boot:spring-boot-starter-actuator'
+
+	// Jackson for JSON processing
+	implementation 'com.fasterxml.jackson.core:jackson-databind'
+	implementation 'com.fasterxml.jackson.core:jackson-core'
+
+	// JWT support
+	implementation 'io.jsonwebtoken:jjwt-api:0.11.2'
+	runtimeOnly 'io.jsonwebtoken:jjwt-impl:0.11.2'
+	runtimeOnly 'io.jsonwebtoken:jjwt-jackson:0.11.2'
+
+	// SpringDoc OpenAPI for Swagger
+	implementation 'org.springdoc:springdoc-openapi-starter-webmvc-ui:2.0.2'
+
+	// Lombok for reducing boilerplate code
+	compileOnly 'org.projectlombok:lombok'
+	annotationProcessor 'org.projectlombok:lombok'
+	testCompileOnly 'org.projectlombok:lombok'
+	testAnnotationProcessor 'org.projectlombok:lombok'
+
+	// Testing dependencies
+	testImplementation 'org.springframework.boot:spring-boot-starter-test'
+
+	// Email dependencies
+	implementation 'org.springframework.boot:spring-boot-starter-mail'
+	implementation 'jakarta.mail:jakarta.mail-api:2.0.1'
+	implementation 'com.sun.mail:jakarta.mail:2.0.1'
+
+	implementation 'org.springframework.boot:spring-boot-configuration-processor'
+
+}
+
+// Jacoco configuration
+jacoco {
+	toolVersion = "0.8.8"
+}
+
+jacocoTestReport {
+	reports {
+		xml.required = true
+		html.required = true
+		csv.required = false
+	}
+}
+
+// SonarQube configuration
+sonarqube {
+	properties {
+		property "sonar.organization", "Ardora"
+		property "sonar.host.url", "http://sonar.ardora.in"
+		property "sonar.sourceEncoding", "UTF-8"
+		// Add the project key
+		property "sonar.projectKey", "com.chit:api"
+
+		// Add coverage report paths (assuming you are using JaCoCo)
+		property "sonar.coverage.jacoco.xmlReportPaths", "${project.buildDir}/reports/jacoco/test/jacocoTestReport.xml"
+
+		println "SonarQube Coverage Path: ${project.buildDir}/reports/jacoco/test/jacocoTestReport.xml"
+		// Optional: set the sources directory if needed
+		property "sonar.sources", "src/main/java"
+		property "sonar.tests", "src/test/java"
+	}
+}
+
+// Test task configuration
+tasks.test {
+	useJUnitPlatform()
+	finalizedBy jacocoTestReport // Generate Jacoco report after tests
+}
+
+tasks.sonarqube {
+	dependsOn jacocoTestReport  // Ensure the coverage report is generated before SonarQube analysis
+}

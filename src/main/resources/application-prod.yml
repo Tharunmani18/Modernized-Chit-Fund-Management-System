@@ -1,0 +1,60 @@
+spring:
+  mail:
+    host: ${EMAIL_HOST}
+    port: ${EMAIL_PORT}
+    username: ${EMAIL_USERNAME}
+    password: ${EMAIL_PASSWORD}
+    properties:
+      mail.smtp.auth: true
+      mail.smtp.starttls.enable: true
+      mail.smtp.ssl.trust: ${EMAIL_HOST}
+      mail.smtp.connectiontimeout: ${EMAIL_CONNECTION_TIMEOUT}
+      mail.smtp.timeout: ${EMAIL_TIMEOUT}
+      mail.smtp.writetimeout: ${EMAIL_WRITE_TIMEOUT}
+      mail.transport.protocol: smtp
+
+  main:
+    allow-circular-references: true
+
+email:
+  sender: ${EMAIL_USERNAME}
+
+management:
+  endpoint:
+    health:
+      show-details: always
+
+server:
+  port: ${SERVER_PORT}
+
+logging:
+  file:
+    path: /var/api/chit/
+    name: logfile.log
+
+jwt:
+  secret: ${JWT_SECRET_KEY}
+  expiration: ${JWT_EXPIRATION_TIME}
+
+springdoc:
+  api-docs:
+    enabled: ${SWAGGER_ENABLE}
+
+encryption:
+  algorithm: ${ENCRYPTION_ALGORITHM}
+  transformation: ${ENCRYPTION_TRANSFORMATION}
+  key: ${ENCRYPTION_KEY}
+
+file:
+  filepath: ${FILEPATH}
+
+mongo:
+  host: ${MONGODB_HOST}
+  port: ${MONGODB_PORT}
+  database: ${MONGODB_DATABASE}
+  ca-cert:
+    path: ${CA_CERT_PATH}
+  client-cert:
+    path: ${CLIENT_CERT_PATH}
+    password: ${CLIENT_CERT_PASSWORD}
+  user: ${X509_USER}
